@@ -66,8 +66,10 @@ Deno.serve(async (req) => {
       .eq("id", recordId)
       .single();
     if (error || !prev) return fail(404, "Record not found.");
-    version = (prev.version as number) + 1;
-    parentId = (prev as Record<string, unknown>)[spec.parentColumn];
+    // .select() uses a dynamic string, so PostgREST can't type the row — narrow via unknown.
+    const prevRow = prev as unknown as Record<string, unknown>;
+    version = (prevRow.version as number) + 1;
+    parentId = prevRow[spec.parentColumn];
   }
   if (!parentId) return fail(400, `Missing ${spec.parentColumn}.`);
 

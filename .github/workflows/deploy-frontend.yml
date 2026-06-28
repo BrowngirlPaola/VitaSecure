@@ -58,7 +58,11 @@ jobs:
           echo "Wrote frontend/js/env.js (URL set: ${SUPABASE_URL:+yes}, anon set: ${SUPABASE_ANON_KEY:+yes})"
 
       - name: Configure Pages
+        # enablement: true auto-creates the Pages site with "GitHub Actions" as the
+        # source if it isn't enabled yet, so no manual Settings → Pages toggle is needed.
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

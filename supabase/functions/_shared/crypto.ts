@@ -41,7 +41,7 @@ function b64encode(bytes: Uint8Array): string {
   for (const b of bytes) s += String.fromCharCode(b);
   return btoa(s);
 }
-function b64decode(s: string): Uint8Array {
+function b64decode(s: string): Uint8Array<ArrayBuffer> {
   const bin = atob(s);
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
@@ -56,14 +56,14 @@ function getKey(): Promise<CryptoKey> {
   keyPromise = (async () => {
     const raw = Deno.env.get("AES_KEY");
     if (!raw) throw new Error("AES_KEY secret is not set");
-    let bytes: Uint8Array;
+    let bytes: Uint8Array<ArrayBuffer>;
     if (/^[0-9a-fA-F]{64}$/.test(raw)) {
       bytes = new Uint8Array(raw.match(/.{2}/g)!.map((h) => parseInt(h, 16)));
     } else {
       bytes = b64decode(raw);
     }
     if (bytes.length !== 32) throw new Error("AES_KEY must be 32 bytes (256-bit)");
-    return crypto.subtle.importKey("raw", bytes, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+    return await crypto.subtle.importKey("raw", bytes, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
   })();
   return keyPromise;
 }
