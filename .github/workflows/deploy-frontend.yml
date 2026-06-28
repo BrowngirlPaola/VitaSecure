@@ -1,0 +1,70 @@
+name: Deploy Frontend (GitHub Pages)
+
+# CD for the static frontend. On push to main it generates the gitignored
+# runtime config (frontend/js/env.js) from repository secrets, then publishes
+# frontend/ to GitHub Pages.
+#
+# One-time setup in repo Settings:
+#   - Settings → Pages → Build and deployment → Source: "GitHub Actions"
+#   - Settings → Secrets and variables → Actions → add:
+#       SUPABASE_URL        (e.g. https://<ref>.supabase.co)  — PUBLIC, safe in browser
+#       SUPABASE_ANON_KEY   (the anon/public key)             — PUBLIC, safe in browser
+#   If the secrets are absent the site still deploys but stays in "demo shell"
+#   mode (config.js treats empty keys as not-configured).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build env.js + publish to Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate runtime env.js from secrets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        shell: bash
+        run: |
+          cat > frontend/js/env.js <<EOF
+          /* Generated at deploy time by .github/workflows/deploy-frontend.yml.
+           * PUBLIC keys only — never put the service-role key, AES key, or any
+           * Edge Function secret here. */
+          window.__ENV__ = {
+            SUPABASE_URL: '${SUPABASE_URL}',
+            SUPABASE_ANON_KEY: '${SUPABASE_ANON_KEY}',
+            FUNCTIONS_URL: '',
+          };
+          EOF
+          echo "Wrote frontend/js/env.js (URL set: ${SUPABASE_URL:+yes}, anon set: ${SUPABASE_ANON_KEY:+yes})"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

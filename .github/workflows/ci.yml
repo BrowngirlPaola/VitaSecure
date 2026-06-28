@@ -1,0 +1,60 @@
+name: CI
+
+# Continuous integration: lint + type-check the privileged backend (Deno Edge
+# Functions) and syntax-check the vanilla-JS frontend on every push / PR to main.
+# No blockchain job yet — Increment 2/3 (Hardhat contracts) is not in the repo.
+# When blockchain/ lands, add a `contracts` job that runs `npx hardhat test`.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  edge-functions:
+    name: Edge Functions (Deno lint + type-check)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: supabase/functions
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Format check (advisory)
+        continue-on-error: true
+        run: deno fmt --check
+
+      - name: Lint
+        run: deno lint
+
+      - name: Type-check entrypoints
+        run: deno check create-record/index.ts read-record/index.ts verify-integrity/index.ts
+
+  frontend:
+    name: Frontend (JS syntax check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax-check all frontend JS
+        shell: bash
+        run: |
+          set -e
+          while IFS= read -r f; do
+            echo "checking $f"
+            node --check "$f"
+          done < <(git ls-files 'frontend/*.js')
