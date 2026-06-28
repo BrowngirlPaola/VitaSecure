@@ -90,7 +90,7 @@ export function isValidRole(role) {
   return ALL_ROLES.includes(role);
 }
 
-/** Resolve the landing page for a role; falls back to the sign-in page. */
+/** Resolve the dashboard for a role; falls back to the sign-in page. */
 export function homeForRole(role) {
-  return ROLE_HOME[role] ?? 'index.html';
+  return ROLE_HOME[role] ?? 'login.html';
 }

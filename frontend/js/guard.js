@@ -25,7 +25,7 @@ export async function requireRole(requiredRole) {
 
   const session = await getSession();
   if (!session) {
-    redirect('../index.html');
+    redirect('../login.html');
     return { role: null, user: null, profile: null, demo: false };
   }
 

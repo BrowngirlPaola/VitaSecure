@@ -1,8 +1,10 @@
-/* pages/index.js — sign-in / sign-up controller (Supabase Auth).
+/* pages/login.js — sign-in / sign-up controller (Supabase Auth).
  *
- * Restyled to the Stitch "Secure Sign In" layout. Toggles between sign-in and
- * sign-up, submits via auth.js, and routes the user to their role dashboard on
- * success. In demo mode (no keys), shows role shortcuts so the UI is reviewable.
+ * Stitch "Secure Sign In" layout. Toggles between sign-in and sign-up, submits
+ * via auth.js, and routes the user to their role dashboard on success. The
+ * landing page links here: `login.html` opens sign-in, `login.html?mode=signup`
+ * (the "Get Started" CTA) opens sign-up. In demo mode (no keys), shows role
+ * shortcuts so the UI is reviewable.
  */
 
 import { isConfigured } from '../config.js';
@@ -146,7 +148,15 @@ function wireParallax() {
   });
 }
 
+/** Start in sign-up mode when the landing "Get Started" CTA links here. */
+function initialModeFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const m = (params.get('mode') || window.location.hash.replace('#', '')).toLowerCase();
+  return m === 'signup' || m === 'register' ? 'signup' : 'signin';
+}
+
 async function init() {
+  mode = initialModeFromUrl();
   applyMode();
   wireParallax();
   if (!isConfigured) {

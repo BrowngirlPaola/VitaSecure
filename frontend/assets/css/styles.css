@@ -279,3 +279,85 @@ textarea.field-input { resize: vertical; min-height: 88px; }
 .toast.is-visible { transform: translateX(-50%) translateY(0); }
 .toast--error { background: rgba(147,0,10,0.9); color: #ffdad6; border: 1px solid rgba(255,180,171,0.4); }
 .toast--ok { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.4); }
+
+/* =============================================================================
+   Landing page (index.html) — marketing surfaces built on the same tokens.
+   ========================================================================== */
+
+/* Secondary / ghost button (design.md: primary-colour border, glass fill on
+   hover). Pairs with .btn-gradient (the primary CTA). */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(210, 187, 255, 0.35);
+  color: #e8dfee;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-secondary:hover {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: #d2bbff;
+  transform: translateY(-1px);
+}
+.btn-secondary:active { transform: scale(0.98); }
+
+/* Radial primary glow behind the hero. */
+.hero-gradient {
+  background: radial-gradient(60% 60% at 70% 30%, rgba(124, 58, 237, 0.18) 0%, rgba(21, 18, 27, 0) 70%);
+}
+
+/* Wide primary glow used on hover for marketing CTAs / framed media. */
+.glow-purple { box-shadow: 0 0 40px rgba(124, 58, 237, 0.28); }
+
+/* Gentle vertical float for hero badges / accents. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-slow { animation: float 9s ease-in-out infinite; }
+
+/* Landing nav links — quiet by default, primary on hover/active. */
+.nav-link {
+  position: relative;
+  color: #ccc3d8;
+  transition: color 0.2s ease;
+}
+.nav-link:hover { color: #e8dfee; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(135deg, #7c3aed 0%, #d2bbff 100%);
+  transition: width 0.25s ease;
+}
+.nav-link:hover::after { width: 100%; }
+
+/* Numbered pipeline connector (write-pipeline stepper). */
+.pipeline-line {
+  background: linear-gradient(90deg, rgba(124,58,237,0.5), rgba(210,187,255,0.15));
+}
+
+/* Scroll reveal — elements lift in as they enter the viewport (landing.js adds
+   .is-visible via IntersectionObserver). Respects reduced-motion below. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-float, .animate-float-slow, .shimmer::after { animation: none; }
+}
+
+/* On small screens, glass surfaces reduce blur + raise opacity for performance
+   and legibility (design.md "Responsive" guidance). */
+@media (max-width: 640px) {
+  .glass-card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}
