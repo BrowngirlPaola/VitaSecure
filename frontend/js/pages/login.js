@@ -125,7 +125,7 @@ function renderDemoLinks() {
   wrap.className = 'w-full mb-md';
   wrap.innerHTML = `<p class="font-label-md text-label-md text-outline mb-xs text-center">Demo shell — preview a dashboard:</p>`;
   const grid = document.createElement('div');
-  grid.className = 'grid grid-cols-3 gap-sm';
+  grid.className = 'grid grid-cols-2 sm:grid-cols-3 gap-sm';
   for (const [role, href] of Object.entries(ROLE_HOME)) {
     const a = document.createElement('a');
     a.href = href;

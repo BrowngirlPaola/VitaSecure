@@ -42,14 +42,15 @@ export async function mountDashboard({ role, active, title }) {
     )
     .join('');
 
+  // Show every nav item on mobile (max 5 across roles). Each cell flexes equally
+  // so 3–5 items fit a phone bottom bar without dropping any tab.
   const mobileLinks = nav
-    .slice(0, 4)
     .map(
       (item) => `
-      <a href="#${item.id}" data-mnav="${item.id}" class="flex flex-col items-center justify-center gap-0.5
+      <a href="#${item.id}" data-mnav="${item.id}" class="flex-1 min-w-0 flex flex-col items-center justify-center gap-0.5 px-0.5
          ${item.id === active ? 'text-primary' : 'text-on-surface-variant'}">
         ${ICON(item.icon)}
-        <span class="text-[10px] ${item.id === active ? 'font-bold' : ''}">${item.label}</span>
+        <span class="text-[10px] leading-tight text-center truncate max-w-full ${item.id === active ? 'font-bold' : ''}">${item.label}</span>
       </a>`,
     )
     .join('');
@@ -117,7 +118,7 @@ export async function mountDashboard({ role, active, title }) {
     </main>
 
     <!-- MOBILE NAV -->
-    <footer class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-around items-center h-16 glass-nav border-t border-white/10 px-md">
+    <footer class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-between items-center h-16 glass-nav border-t border-white/10 px-xs">
       ${mobileLinks}
     </footer>
 

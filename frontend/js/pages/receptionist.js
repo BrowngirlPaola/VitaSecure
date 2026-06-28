@@ -230,7 +230,7 @@ function openRegisterForm(patientId = '') {
         <p class="text-body-sm text-on-surface-variant">Duplicate detection runs on full name + DOB before a new chart is created (FR-REC-3).</p>
       </div>` : ''}
       ${field('Full name', textInput('full_name', { value: p ? p.name : '', placeholder: 'Full legal name' }))}
-      <div class="grid grid-cols-2 gap-md">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
         ${field('Date of birth', textInput('dob', { value: p ? (p.dob || '') : '', type: 'date' }))}
         ${field('Sex', optionSelect('sex', ['Female', 'Male', 'Other'], p ? sexLabel(p.sex) : 'Female'))}
       </div>
@@ -284,7 +284,7 @@ function openBookingForm() {
     submitIcon: 'event_available',
     body: `
       ${field('Patient', patientPicker())}
-      <div class="grid grid-cols-2 gap-md">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
         ${field('Date', textInput('date', { type: 'date' }))}
         ${field('Time', textInput('time', { type: 'time' }))}
       </div>

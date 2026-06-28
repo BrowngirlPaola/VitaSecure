@@ -657,7 +657,7 @@ async function openPrescriptionForm(rxId = '') {
       <div data-allergy-slot>${allergyBanner(selectedPatient)}</div>
       ${field('Patient', patientSelect('patient', selectedPatient))}
       ${field('Drug', `<input name="drug" class="field-input" value="${existing ? escapeHtml(existing.drug) : ''}" placeholder="e.g. Lisinopril" />`)}
-      <div class="grid grid-cols-2 gap-md">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
         ${field('Dose', `<input name="dose" class="field-input" value="${existing ? escapeHtml(existing.dose) : ''}" placeholder="e.g. 10 mg" />`)}
         ${field('Frequency', `<input name="frequency" class="field-input" value="${existing ? escapeHtml(existing.frequency) : ''}" placeholder="e.g. Once daily" />`)}
       </div>
@@ -705,7 +705,7 @@ function openPatient(patientId) {
 
         <section class="glass-card p-lg">
           <h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-md">Vitals (latest) — read-only (FR-DOC-6)</h4>
-          ${ctx.demo ? `<div class="grid grid-cols-2 gap-md">
+          ${ctx.demo ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
             ${vitalTile('Blood Pressure', '128 / 82', 'mmHg')}
             ${vitalTile('Heart Rate', '74', 'bpm')}
             ${vitalTile('Temperature', '36.8', '°C')}

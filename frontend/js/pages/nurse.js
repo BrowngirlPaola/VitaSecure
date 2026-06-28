@@ -277,7 +277,7 @@ function openVitalsForm(patientId = PATIENTS[0]?.id || '') {
     subtitle: 'Attributed to you with a timestamp; encrypted, hashed and anchored on save (US-NUR-1).',
     body: `
       ${field('Patient', patientOptions(patientId))}
-      <div class="grid grid-cols-2 gap-md">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
         ${field('Temperature (°C)', textInput('temperature', { placeholder: '36.8' }))}
         ${field('Blood pressure', textInput('blood_pressure', { placeholder: '120/80' }))}
         ${field('Heart rate (bpm)', textInput('heart_rate', { placeholder: '74' }))}
