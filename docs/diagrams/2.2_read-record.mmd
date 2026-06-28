@@ -1,0 +1,31 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','actorBkg':'#ffffff','actorBorder':'#000000','actorTextColor':'#000000','actorLineColor':'#000000','signalColor':'#000000','signalTextColor':'#000000','labelBoxBkgColor':'#ffffff','labelBoxBorderColor':'#000000','labelTextColor':'#000000','loopTextColor':'#000000','noteBkgColor':'#ffffff','noteBorderColor':'#000000','noteTextColor':'#000000','sequenceNumberColor':'#000000','altBackground':'#ffffff'}}}%%
+sequenceDiagram
+  actor N as Nurse
+  participant FE as Frontend (Browser)
+  participant SB as Supabase Auth
+  participant EF as Edge Function (read-record)
+  participant RB as RBAC Contract
+  participant DB as Supabase Postgres
+  participant AU as Audit Log (on-chain)
+
+  N->>FE: Open patient record
+  FE->>SB: getSession()
+  SB-->>FE: Supabase JWT (access token, user_role claim)
+  FE->>EF: GET /read-record (JWT, record_id)
+  EF->>EF: Verify JWT (Supabase secret), extract sub and user_role = nurse
+  EF->>RB: checkAccess(nurse, read, vitals)
+
+  alt Access permitted
+    RB-->>EF: PERMIT
+    EF->>DB: SELECT encrypted record
+    DB-->>EF: Ciphertext row
+    EF->>EF: AES-256 decrypt
+    EF->>AU: emit AuditEvent(read)
+    EF-->>FE: 200 OK (record)
+    FE-->>N: Display record
+  else Access denied
+    RB-->>EF: DENY
+    EF->>AU: emit AuditEvent(access_denied)
+    EF-->>FE: 403 Forbidden
+    FE-->>N: Access denied message
+  end

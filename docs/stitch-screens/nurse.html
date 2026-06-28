@@ -1,0 +1,517 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NexusEHR Nurse Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #15121b;
+            color: #e8dfee;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(210, 187, 255, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffe0cd",
+                        "surface": "#15121b",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-primary-fixed-variant": "#5a00c6",
+                        "tertiary": "#ffb784",
+                        "on-surface-variant": "#ccc3d8",
+                        "surface-container-low": "#1d1a24",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#4f319c",
+                        "on-secondary-container": "#bea8ff",
+                        "on-primary": "#3f008e",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-fixed": "#301400",
+                        "surface-dim": "#15121b",
+                        "surface-tint": "#d2bbff",
+                        "surface-container-highest": "#37333e",
+                        "surface-container-high": "#2c2833",
+                        "secondary": "#cebdff",
+                        "inverse-surface": "#e8dfee",
+                        "primary-fixed-dim": "#d2bbff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdcc6",
+                        "tertiary-container": "#a15100",
+                        "primary": "#d2bbff",
+                        "outline-variant": "#4a4455",
+                        "surface-bright": "#3c3742",
+                        "on-primary-fixed": "#25005a",
+                        "on-error": "#690005",
+                        "secondary-container": "#4f319c",
+                        "outline": "#958da1",
+                        "on-background": "#e8dfee",
+                        "secondary-fixed-dim": "#cebdff",
+                        "on-primary-container": "#ede0ff",
+                        "inverse-primary": "#732ee4",
+                        "surface-container-lowest": "#100d16",
+                        "primary-container": "#7c3aed",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#e8ddff",
+                        "background": "#15121b",
+                        "on-secondary": "#381385",
+                        "primary-fixed": "#eaddff",
+                        "surface-variant": "#37333e",
+                        "surface-container": "#221e28",
+                        "inverse-on-surface": "#332f39",
+                        "on-secondary-fixed": "#21005e",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "on-surface": "#e8dfee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "margin-desktop": "48px",
+                        "unit": "4px",
+                        "xl": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation -->
+<header class="flex justify-between items-center w-full px-lg py-sm sticky top-0 z-50 bg-surface/80 backdrop-blur-xl docked full-width border-b border-white/10 shadow-lg shadow-primary-container/10">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">NexusEHR</span>
+<div class="hidden md:flex items-center gap-sm bg-white/5 px-md py-xs rounded-full border border-white/5">
+<span class="material-symbols-outlined text-[16px] text-emerald-400" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-md text-label-md text-emerald-400">Blockchain: Online</span>
+</div>
+</div>
+<div class="flex-1 max-w-xl mx-xl relative hidden md:block">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-white/5 border border-white/10 rounded-full py-xs pl-[44px] pr-md font-body-md text-body-md focus:outline-none focus:border-primary/50 transition-all" placeholder="Search patients or records..." type="text">
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-white/5 p-sm rounded-full transition-colors">hub</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-white/5 p-sm rounded-full transition-colors relative">
+                notifications
+                <span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-white/5 p-sm rounded-full transition-colors">settings</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 p-[2px]">
+<img alt="Medical professional profile" class="w-full h-full rounded-full object-cover" data-alt="A close-up portrait of a professional female nurse with a confident smile, wearing dark blue medical scrubs and a stethoscope around her neck. The background is a softly blurred modern medical facility with cool-toned lighting and glass accents. The aesthetic is clean, professional, and empathetic, reflecting a high-end medical environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7JRUvsX6KbqZev8WKExAIvB7pe9lrvPOQB5G0sekXMa8eGOyQGGfvq2c1KhDIZxWENBCjz3M6cSYhXSiaz5y-kIa1Uqfni4ju8ffDub0Rbp6IpTA8kWi3mrO8W_qJ63wM8GADvC-sq0T8sWhyL6OcODsvB4C6mZ0opcS03w6jl7S3wdsROqoyimzSGn8eLVsj1-EGJ6Xl0zgBrqDio3ijOOw_ww4_1jUAtUpVSEEAjESbKBmREuPJs2tySh2XTCOk697FiKHJsxTm">
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen hidden lg:flex flex-col z-40 bg-surface-container-low/90 backdrop-blur-2xl docked w-64 border-r border-white/5 shadow-2xl pt-24">
+<div class="px-lg mb-xl">
+<div class="flex items-center gap-md mb-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">clinical_notes</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-bold">Clinical Ops</div>
+<div class="text-[10px] text-on-surface-variant tracking-wider uppercase">Verified Node 0x4F2</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col">
+<a class="text-on-surface-variant hover:text-on-surface px-lg py-md flex items-center gap-md hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Patients</span>
+</a>
+<a class="bg-primary-container/20 text-primary border-r-4 border-primary px-lg py-md flex items-center gap-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Clinical Queue</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface px-lg py-md flex items-center gap-md hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-label-md text-label-md">Vitals</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface px-lg py-md flex items-center gap-md hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-md text-label-md">Encounters</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface px-lg py-md flex items-center gap-md hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-md text-label-md">Alerts</span>
+<span class="ml-auto bg-error-container text-error text-[10px] px-sm py-[2px] rounded-full">3</span>
+</a>
+</nav>
+<div class="p-lg">
+<button class="w-full bg-gradient-to-r from-primary-container to-secondary-container text-white py-md rounded-xl font-label-md text-label-md hover:opacity-90 transition-all flex items-center justify-center gap-sm shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+                Emergency Admit
+            </button>
+</div>
+<footer class="mt-auto border-t border-white/5 p-lg space-y-sm">
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-md text-label-md font-label-md py-xs" href="#">
+<span class="material-symbols-outlined">help</span> Help
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-md text-label-md font-label-md py-xs" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+            </a>
+</footer>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:pl-64 pt-6 pb-24 lg:pb-6 min-h-screen">
+<div class="px-md lg:px-xl max-w-7xl mx-auto space-y-lg">
+<!-- Hero Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Nurse Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back, Nurse Sarah. You have 8 patients in your queue.</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="glass-panel rounded-xl px-md py-sm flex items-center gap-md">
+<div class="text-right">
+<div class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Shift Ends In</div>
+<div class="font-headline-md text-headline-md text-primary leading-none">04:22:15</div>
+</div>
+<span class="material-symbols-outlined text-primary-container text-[32px]">schedule</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Clinical Queue (Bento Large) -->
+<section class="md:col-span-8 glass-panel rounded-[24px] p-lg flex flex-col">
+<div class="flex justify-between items-center mb-lg">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">view_list</span>
+<h2 class="font-headline-md text-headline-md">Clinical Queue</h2>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+</div>
+<div class="space-y-md custom-scrollbar overflow-y-auto max-h-[520px] pr-sm">
+<!-- Queue Item 1 -->
+<div class="group relative flex flex-col md:flex-row md:items-center justify-between p-md rounded-xl bg-white/5 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Sarah Mitchell" class="w-full h-full object-cover" data-alt="A cinematic portrait of a mature woman named Sarah Mitchell sitting in a medical waiting room. She looks calm yet expectant. The lighting is soft and natural, emphasizing the texture of her skin and the high-tech medical environment in the background. The colors are muted with subtle purple and blue tones consistent with a modern clinic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfd3b9B3zoZymXxSkQw2nVDnYjR-oGvNzVWJKer2ToYllMF_z1Svk7QbS5lma8O3_8LoriJ7bu300JV97mkW8P2YCQpyG7EcUQ5bwy1HqaKtci3hkLTPVWhlXqBvTZS8HYKBwnCATgsctnSYUBXMM1bV1Oxqvmbpwdjt7haDChDXrJWMgcP_8C5VFdP0yS_zaQ8X3vp878JuGyMpoHxeubnGuHy2vAKw917dRf9jALcs--IdaxLLwcOF8JdKGRyccmz1wbxnnWVSYe">
+</div>
+<div>
+<div class="font-body-lg text-body-lg font-bold text-on-surface">Sarah Mitchell</div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">id_card</span> ID: 882-91
+                                        <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+<span>Rm 402</span>
+</div>
+</div>
+</div>
+<div class="flex gap-lg mt-md md:mt-0 items-center">
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Temp</span>
+<span class="text-body-md font-bold text-error">101.4°F</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">BP</span>
+<span class="text-body-md font-bold">132/88</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">SpO2</span>
+<span class="text-body-md font-bold text-emerald-400">98%</span>
+</div>
+<button class="ml-4 p-sm bg-primary/10 hover:bg-primary text-primary hover:text-on-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">edit_note</span>
+</button>
+</div>
+</div>
+<!-- Queue Item 2 -->
+<div class="group relative flex flex-col md:flex-row md:items-center justify-between p-md rounded-xl bg-white/5 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Robert Klein" class="w-full h-full object-cover" data-alt="A portrait of an elderly gentleman named Robert Klein with kind eyes and silver hair. He is wearing a hospital gown in a clean, brightly lit patient room. The photo has a soft focus on the background showing medical monitoring equipment with glowing violet indicators. The atmosphere is peaceful and secure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu6KdBO6I6Fj_zaf49j0iISDqkGLCnNPYUBon9wZF_tnkpoikKAmpTdF6TUjRVjDoqcCSNj7ov-8bNvWf157AeVGHlQZfXot5Eicy0GZSWQFK4ppYn5gInhG9AT9XFMX3tEv97t2NtUyxNiZpvegVEFIPipC-KRZnk2JuiQHznbzqGOU7Kv3ULjhodS316REH8-Caco_j2su-AJ1iABVzLzFO27GkNkgVCHhiQrdu4SCmeWs0nSq1119ko1D5k5NzXKKFuf5ZAkrCA">
+</div>
+<div>
+<div class="font-body-lg text-body-lg font-bold text-on-surface">Robert Klein</div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">id_card</span> ID: 441-02
+                                        <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+<span>Rm 415</span>
+</div>
+</div>
+</div>
+<div class="flex gap-lg mt-md md:mt-0 items-center">
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Temp</span>
+<span class="text-body-md font-bold">98.6°F</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">BP</span>
+<span class="text-body-md font-bold text-tertiary">148/92</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">SpO2</span>
+<span class="text-body-md font-bold text-emerald-400">96%</span>
+</div>
+<button class="ml-4 p-sm bg-primary/10 hover:bg-primary text-primary hover:text-on-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">edit_note</span>
+</button>
+</div>
+</div>
+<!-- Queue Item 3 -->
+<div class="group relative flex flex-col md:flex-row md:items-center justify-between p-md rounded-xl bg-white/5 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" data-alt="A portrait of Elena Rodriguez, a young woman in her 20s with long dark hair, looking thoughtful. She is in a clinical exam room with frosted glass partitions and high-tech digital displays. The lighting is crisp and modern, with purple ambient glows highlighting the sleek design of the environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC97COZqNC1IJeMJF1oB6HBXbVNZN6M-7GCc8amK8PsHfgr3PsO--pass4yqROEwrPX42sabH6aZ0YFUxgNdvhIwVNvYFtl0eZBm14Rk4i0YI_bte3QvWhyN3Rxl_9fdkU8CE3-L-aPgxCs4l6AyjRHkmo-eOP3m0TJnEyJj2BkzvUG622hl08iRupVPnqnU47flL0HzcxpYgpmykI9QtkQDNKk9u2ufOrGxiX-zBoZ_t1uM6Z_jO2q-Bu52kuoDRsjZAl7kMG1oQOC">
+</div>
+<div>
+<div class="font-body-lg text-body-lg font-bold text-on-surface">Elena Rodriguez</div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">id_card</span> ID: 229-15
+                                        <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+<span>Waiting (A)</span>
+</div>
+</div>
+</div>
+<div class="flex gap-lg mt-md md:mt-0 items-center">
+<div class="px-md py-sm bg-primary-container/20 border border-primary/30 rounded-lg">
+<span class="font-label-md text-label-md text-primary">Pending Vitals</span>
+</div>
+<button class="ml-4 p-sm bg-primary/10 hover:bg-primary text-primary hover:text-on-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">add_task</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Content (Right Column) -->
+<div class="md:col-span-4 space-y-lg">
+<!-- Quick Actions -->
+<section class="glass-panel rounded-[24px] p-lg flex flex-col gap-md neon-glow-primary">
+<h2 class="font-label-md text-label-md text-primary uppercase tracking-widest">Quick Actions</h2>
+<button class="group w-full bg-gradient-to-br from-primary-container to-secondary-container p-lg rounded-2xl flex items-center justify-between transition-transform active:scale-[0.98]">
+<div class="flex items-center gap-md">
+<div class="p-sm bg-white/20 rounded-xl">
+<span class="material-symbols-outlined text-white text-[32px]">heart_plus</span>
+</div>
+<div class="text-left">
+<div class="font-headline-md text-headline-md text-white">Record Vitals</div>
+<p class="text-white/70 text-body-sm font-body-sm">Manual or Sync Entry</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white text-[32px] group-hover:translate-x-1 transition-transform">chevron_right</span>
+</button>
+<div class="grid grid-cols-2 gap-sm">
+<button class="bg-white/5 border border-white/10 p-md rounded-xl flex flex-col items-center gap-xs hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-primary">note_alt</span>
+<span class="font-label-md text-label-md">Add Note</span>
+</button>
+<button class="bg-white/5 border border-white/10 p-md rounded-xl flex flex-col items-center gap-xs hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-primary">medication</span>
+<span class="font-label-md text-label-md">Med Pass</span>
+</button>
+</div>
+</section>
+<!-- Recent Activity -->
+<section class="glass-panel rounded-[24px] p-lg overflow-hidden flex flex-col h-[400px]">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">history</span>
+<h2 class="font-headline-md text-headline-md">Recent Activity</h2>
+</div>
+<div class="space-y-lg overflow-y-auto custom-scrollbar flex-1 pr-sm">
+<!-- Log 1 -->
+<div class="relative pl-6 border-l border-white/10 space-y-sm">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-body-md text-body-md font-bold">Nursing Note: Mitchell, S.</div>
+<div class="text-[10px] text-on-surface-variant">2 mins ago • Nurse Sarah J.</div>
+</div>
+<div class="bg-emerald-400/20 border border-emerald-400/40 px-xs py-[1px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined text-[10px] text-emerald-400" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[8px] font-bold text-emerald-400">VERIFIED</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant line-clamp-2 italic">"Patient reporting reduced abdominal pain after scheduled analgesics..."</p>
+</div>
+<!-- Log 2 -->
+<div class="relative pl-6 border-l border-white/10 space-y-sm">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary/40"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-body-md text-body-md font-bold">Vitals Captured: Klein, R.</div>
+<div class="text-[10px] text-on-surface-variant">15 mins ago • Automatic Sync</div>
+</div>
+<div class="bg-emerald-400/20 border border-emerald-400/40 px-xs py-[1px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined text-[10px] text-emerald-400" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[8px] font-bold text-emerald-400">VERIFIED</span>
+</div>
+</div>
+<div class="flex gap-sm">
+<span class="text-[10px] bg-white/5 px-sm py-[2px] rounded border border-white/10">Temp 98.6</span>
+<span class="text-[10px] bg-white/5 px-sm py-[2px] rounded border border-white/10">HR 72</span>
+</div>
+</div>
+<!-- Log 3 -->
+<div class="relative pl-6 border-l border-white/10 space-y-sm">
+<div class="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary/40"></div>
+<div class="flex justify-between items-start">
+<div>
+<div class="font-body-md text-body-md font-bold">Alert: Rodriguez, E.</div>
+<div class="text-[10px] text-on-surface-variant">42 mins ago • System Notification</div>
+</div>
+<div class="bg-emerald-400/20 border border-emerald-400/40 px-xs py-[1px] rounded flex items-center gap-[2px]">
+<span class="material-symbols-outlined text-[10px] text-emerald-400" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[8px] font-bold text-emerald-400">VERIFIED</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant">Admission papers received from front desk node.</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer Stats / Network Status -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md pb-xl">
+<div class="glass-panel p-md rounded-xl border border-white/5 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">link</span>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Hash Integrity</div>
+<div class="font-label-md text-label-md text-emerald-400">0xAA4...92F (Valid)</div>
+</div>
+</div>
+<div class="glass-panel p-md rounded-xl border border-white/5 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">storage</span>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Sync Nodes</div>
+<div class="font-label-md text-label-md text-on-surface">12 active nodes</div>
+</div>
+</div>
+<div class="glass-panel p-md rounded-xl border border-white/5 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">security_update_good</span>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Encryption</div>
+<div class="font-label-md text-label-md text-on-surface">AES-256 Quantum</div>
+</div>
+</div>
+<div class="glass-panel p-md rounded-xl border border-white/5 flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">verified</span>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Compliance</div>
+<div class="font-label-md text-label-md text-emerald-400">HIPAA Compliant</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-around items-center h-16 px-md pb-safe bg-surface-container-high/95 backdrop-blur-lg docked full-width rounded-t-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-primary-container/10 px-sm transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:bg-primary-container/10 px-sm transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-label-md text-[10px]">Patients</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-primary-container/10 px-sm transition-all relative" href="#">
+<div class="absolute -top-8 bg-primary rounded-full p-md shadow-lg shadow-primary/40 border-4 border-background">
+<span class="material-symbols-outlined text-white">add</span>
+</div>
+<span class="font-label-md text-[10px] mt-4">Action</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-primary-container/10 px-sm transition-all" href="#">
+<span class="material-symbols-outlined">hourglass_empty</span>
+<span class="font-label-md text-[10px]">Queue</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-primary-container/10 px-sm transition-all" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-label-md text-[10px]">Alerts</span>
+</a>
+</nav>
+<!-- Background Atmospheric Effect -->
+<div class="fixed inset-0 pointer-events-none z-[-1] opacity-30">
+
+</div>
+<script>
+        // Simple Micro-interaction script
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.style.transform = 'scale(0.96)';
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.style.transform = '';
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.style.transform = '';
+            });
+        });
+
+        // Dynamic Greeting based on time
+        const updateGreeting = () => {
+            const hour = new Date().getHours();
+            const text = document.querySelector('p.text-on-surface-variant');
+            if(hour < 12) text.textContent = "Good morning, Nurse Sarah. You have 8 patients in your queue.";
+            else if(hour < 18) text.textContent = "Good afternoon, Nurse Sarah. You have 8 patients in your queue.";
+            else text.textContent = "Good evening, Nurse Sarah. You have 8 patients in your queue.";
+        };
+        updateGreeting();
+    </script>
+</body></html>

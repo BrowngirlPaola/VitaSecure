@@ -1,0 +1,224 @@
+/* =============================================================================
+   Aura EHR — Design Tokens
+   Source of truth: docs/design-system/design.md (pulled from Stitch "Aura EHR")
+   Style: Glassmorphism / Modern Dark · Plus Jakarta Sans · Vivid Purple (#7C3AED)
+
+   Import this once at the top of the global stylesheet, e.g.:
+     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+     @import './tokens.css';
+   Then reference variables: color: var(--color-on-surface);
+   ========================================================================== */
+
+:root {
+  /* ---- Color: roles (Material-style scheme) ------------------------------ */
+  --color-background: #15121b;
+  --color-on-background: #e8dfee;
+
+  --color-surface: #15121b;
+  --color-surface-dim: #15121b;
+  --color-surface-bright: #3c3742;
+  --color-surface-container-lowest: #100d16;
+  --color-surface-container-low: #1d1a24;
+  --color-surface-container: #221e28;
+  --color-surface-container-high: #2c2833;
+  --color-surface-container-highest: #37333e;
+  --color-surface-variant: #37333e;
+  --color-surface-tint: #d2bbff;
+  --color-on-surface: #e8dfee;
+  --color-on-surface-variant: #ccc3d8;
+  --color-inverse-surface: #e8dfee;
+  --color-inverse-on-surface: #332f39;
+
+  --color-outline: #958da1;
+  --color-outline-variant: #4a4455;
+
+  --color-primary: #d2bbff;
+  --color-on-primary: #3f008e;
+  --color-primary-container: #7c3aed;
+  --color-on-primary-container: #ede0ff;
+  --color-inverse-primary: #732ee4;
+  --color-primary-fixed: #eaddff;
+  --color-primary-fixed-dim: #d2bbff;
+  --color-on-primary-fixed: #25005a;
+  --color-on-primary-fixed-variant: #5a00c6;
+
+  --color-secondary: #cebdff;
+  --color-on-secondary: #381385;
+  --color-secondary-container: #4f319c;
+  --color-on-secondary-container: #bea8ff;
+  --color-secondary-fixed: #e8ddff;
+  --color-secondary-fixed-dim: #cebdff;
+  --color-on-secondary-fixed: #21005e;
+  --color-on-secondary-fixed-variant: #4f319c;
+
+  --color-tertiary: #ffb784;
+  --color-on-tertiary: #4f2500;
+  --color-tertiary-container: #a15100;
+  --color-on-tertiary-container: #ffe0cd;
+  --color-tertiary-fixed: #ffdcc6;
+  --color-tertiary-fixed-dim: #ffb784;
+  --color-on-tertiary-fixed: #301400;
+  --color-on-tertiary-fixed-variant: #713700;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* ---- Color: brand overrides & clinical status ------------------------- */
+  --brand-primary: #7c3aed;          /* Vivid Purple */
+  --brand-secondary: #a78bfa;        /* Soft Lavender */
+  --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+
+  --status-verified: #10b981;        /* Emerald — VERIFIED / healthy */
+  --status-verified-surface: rgba(16, 185, 129, 0.20);
+  --status-tampered: #f43f5e;        /* Rose — TAMPERED / critical */
+  --status-tampered-surface: rgba(244, 63, 94, 0.20);
+
+  /* ---- Glassmorphism surfaces (elevation) ------------------------------- */
+  --glass-1-fill: rgba(255, 255, 255, 0.05);
+  --glass-1-border: rgba(255, 255, 255, 0.10);
+  --glass-2-fill: rgba(255, 255, 255, 0.08);
+  --glass-blur: 12px;
+  --glass-blur-modal: 20px;
+  --glow-primary: 0 0 24px rgba(124, 58, 237, 0.15);
+
+  /* ---- Typography ------------------------------------------------------- */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  --type-display-lg: 700 48px/1.2 var(--font-sans);
+  --type-headline-lg: 700 32px/40px var(--font-sans);
+  --type-headline-lg-mobile: 700 28px/36px var(--font-sans);
+  --type-headline-md: 600 24px/32px var(--font-sans);
+  --type-body-lg: 400 18px/28px var(--font-sans);
+  --type-body-md: 400 16px/24px var(--font-sans);
+  --type-body-sm: 400 14px/20px var(--font-sans);
+  --type-label-md: 600 12px/16px var(--font-sans);
+
+  --tracking-display: -0.02em;
+  --tracking-headline: -0.01em;
+  --tracking-label: 0.05em;
+
+  /* ---- Spacing (4px baseline) ------------------------------------------- */
+  --space-unit: 4px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;   /* default container padding */
+  --space-xl: 40px;
+  --space-gutter: 24px;
+  --margin-mobile: 16px;
+  --margin-desktop: 48px;
+
+  /* ---- Radius ----------------------------------------------------------- */
+  --radius-sm: 0.25rem;     /* 4px */
+  --radius-default: 0.5rem; /* 8px */
+  --radius-md: 0.75rem;     /* 12px — buttons & inputs */
+  --radius-lg: 1rem;        /* 16px */
+  --radius-xl: 1.5rem;      /* 24px — cards */
+  --radius-full: 9999px;    /* pill badges */
+
+  /* ---- Borders ---------------------------------------------------------- */
+  --border-hairline: 1px;
+  --border-crisp: 1.5px;
+}
+
+/* =============================================================================
+   Optional helper classes — thin reference implementations of the component
+   specs in design.md. Use directly or copy into component stylesheets.
+   ========================================================================== */
+
+body {
+  background: var(--color-background);
+  color: var(--color-on-background);
+  font: var(--type-body-md);
+}
+
+/* Glass card — 24px radius, 12px blur, 1px hairline border */
+.ds-card {
+  background: var(--glass-1-fill);
+  border: var(--border-hairline) solid var(--glass-1-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.ds-modal {
+  background: var(--glass-2-fill);
+  border: var(--border-hairline) solid var(--glass-1-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(var(--glass-blur-modal));
+  -webkit-backdrop-filter: blur(var(--glass-blur-modal));
+  box-shadow: var(--glow-primary);
+}
+
+/* Primary button — gradient fill, white text, 12px radius */
+.ds-btn-primary {
+  background: var(--gradient-brand);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font: var(--type-label-md);
+  cursor: pointer;
+}
+
+/* Secondary button — ghost with primary border, glass fill on hover */
+.ds-btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: var(--border-hairline) solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font: var(--type-label-md);
+  cursor: pointer;
+}
+.ds-btn-secondary:hover { background: var(--glass-1-fill); }
+
+/* Input field — transparent fill, white-10% border, primary glow on focus */
+.ds-input {
+  background: transparent;
+  color: var(--color-on-surface);
+  border: var(--border-hairline) solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font: var(--type-body-md);
+}
+.ds-input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: inset 0 0 0 1px var(--brand-primary);
+}
+.ds-label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font: var(--type-label-md);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+}
+
+/* Status badges — pill shaped (integrity verification UI) */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-sm);
+  font: var(--type-label-md);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border-width: var(--border-hairline);
+  border-style: solid;
+}
+.ds-badge--verified {
+  color: var(--status-verified);
+  background: var(--status-verified-surface);
+  border-color: var(--status-verified);
+}
+.ds-badge--tampered {
+  color: var(--status-tampered);
+  background: var(--status-tampered-surface);
+  border-color: var(--status-tampered);
+}

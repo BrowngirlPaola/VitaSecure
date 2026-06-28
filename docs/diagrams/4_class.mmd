@@ -1,0 +1,138 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','mainBkg':'#ffffff','classText':'#000000'}}}%%
+classDiagram
+  class Role {
+    <<enumeration>>
+    ADMIN
+    DOCTOR
+    NURSE
+    LAB_TECHNICIAN
+    RECEPTIONIST
+    PATIENT
+  }
+
+  class User {
+    +authUserId: string
+    +username: string
+    +role: Role
+    +status: string
+    +createdAt: datetime
+  }
+
+  class Patient {
+    +patientId: string
+    +mrn: string
+    +fullName: string
+    +dob: date
+    +sex: string
+    +contact: string
+    +chartStatus: string
+  }
+
+  class Appointment {
+    +appointmentId: string
+    +datetime: datetime
+    +reason: string
+    +status: string
+  }
+
+  class VerifiableRecord {
+    <<abstract>>
+    +version: int
+    +recordHash: string
+    +anchorTxId: string
+    +computeHash() string
+    +verifyIntegrity() bool
+  }
+
+  class Encounter {
+    +encounterId: string
+    +datetime: datetime
+    +chiefComplaint: string
+    +diagnosis: string
+    +progressNote: string
+  }
+
+  class Vitals {
+    +vitalsId: string
+    +temperature: float
+    +bloodPressure: string
+    +heartRate: int
+    +respRate: int
+    +weight: float
+    +note: string
+  }
+
+  class Allergy {
+    +allergyId: string
+    +substance: string
+    +reaction: string
+    +severity: string
+  }
+
+  class LabOrder {
+    +orderId: string
+    +testType: string
+    +priority: string
+    +status: string
+    +createdAt: datetime
+  }
+
+  class LabResult {
+    +resultId: string
+    +resultPayload: string
+    +attachmentRef: string
+    +completedAt: datetime
+  }
+
+  class Prescription {
+    +prescriptionId: string
+    +drug: string
+    +dose: string
+    +frequency: string
+    +duration: string
+  }
+
+  class ConsentRecord {
+    +consentId: string
+    +scope: string
+    +grantedTo: string
+    +grantedAt: datetime
+    +revokedAt: datetime
+  }
+
+  class AuditEvent {
+    +logId: string
+    +action: string
+    +objectType: string
+    +objectId: string
+    +outcome: string
+    +timestamp: datetime
+    +anchorTxId: string
+  }
+
+  class IntegrityAnchor {
+    +recordId: string
+    +recordType: string
+    +sha256Hash: string
+    +authorId: string
+    +version: int
+    +timestamp: datetime
+  }
+
+  VerifiableRecord <|-- Encounter
+  VerifiableRecord <|-- Vitals
+  VerifiableRecord <|-- LabResult
+  VerifiableRecord <|-- Prescription
+
+  User "1" --> "0..1" Patient : profile
+  User "1" --> "*" AuditEvent : performs
+  Patient "1" --> "*" Encounter : has
+  Patient "1" --> "*" Appointment : books
+  Patient "1" --> "*" Vitals : has
+  Patient "1" --> "*" Allergy : has
+  Patient "1" --> "*" Prescription : receives
+  Patient "1" --> "*" ConsentRecord : controls
+  Encounter "1" --> "*" LabOrder : generates
+  LabOrder "1" --> "1" LabResult : produces
+  Encounter "1" --> "*" Prescription : includes
+  VerifiableRecord "1" --> "1" IntegrityAnchor : anchored by

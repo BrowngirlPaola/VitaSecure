@@ -1,0 +1,29 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','actorBkg':'#ffffff','actorBorder':'#000000','actorTextColor':'#000000','actorLineColor':'#000000','signalColor':'#000000','signalTextColor':'#000000','labelBoxBkgColor':'#ffffff','labelBoxBorderColor':'#000000','labelTextColor':'#000000','loopTextColor':'#000000','noteBkgColor':'#ffffff','noteBorderColor':'#000000','noteTextColor':'#000000','sequenceNumberColor':'#000000','altBackground':'#ffffff'}}}%%
+sequenceDiagram
+  actor D as Doctor
+  participant FE as Frontend (Browser)
+  participant SB as Supabase Auth
+  participant EF as Edge Function (verify-integrity)
+  participant DB as Supabase Postgres
+  participant IA as IntegrityAnchor Contract
+  participant AU as Audit Log (on-chain)
+
+  D->>FE: Click "Verify integrity" on a record
+  FE->>SB: getSession()
+  SB-->>FE: Supabase JWT (access token, user_role claim)
+  FE->>EF: POST /verify-integrity (JWT, record_id, version)
+  EF->>EF: Verify JWT (Supabase secret), extract sub and user_role = doctor
+  EF->>DB: SELECT encrypted record (version)
+  DB-->>EF: Ciphertext row
+  EF->>EF: Decrypt, canonicalise, recompute SHA-256
+  EF->>IA: getAnchor(record_id, version)
+  IA-->>EF: Stored hash
+
+  alt Hashes match
+    EF-->>FE: VERIFIED
+    FE-->>D: Show VERIFIED badge
+  else Hashes differ
+    EF->>AU: emit AuditEvent(tamper_detected)
+    EF-->>FE: TAMPERED
+    FE-->>D: Show TAMPERED warning
+  end

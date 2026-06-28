@@ -1,0 +1,47 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#ffffff','lineColor':'#000000','textColor':'#000000','mainBkg':'#ffffff','clusterBkg':'#ffffff','clusterBorder':'#000000','edgeLabelBackground':'#ffffff'}}}%%
+flowchart LR
+  subgraph Client["«component» Frontend"]
+    direction TB
+    Pages["Role Pages"]
+    AuthC["Supabase Auth Client"]
+    DataC["Supabase Client"]
+    ApiC["API Wrapper"]
+  end
+
+  subgraph Backend["«component» Edge Functions"]
+    direction TB
+    RecSvc["Record Service"]
+    IntSvc["Integrity Service"]
+    RbacSvc["RBAC Service"]
+    CryptoM["Crypto Module"]
+    ChainM["Chain Module"]
+    AuditM["Audit Module"]
+  end
+
+  subgraph Data["«component» Data Store"]
+    Tables["Postgres Tables + RLS"]
+  end
+
+  subgraph Chain["«component» Smart Contracts"]
+    RBACc["RBAC.sol"]
+    IAc["IntegrityAnchor.sol"]
+    AUDc["Audit.sol"]
+  end
+
+  SupaAuth{{"«external» Supabase Auth"}}
+
+  AuthC -->|"auth API (email/password)"| SupaAuth
+  DataC -->|"obtain JWT"| SupaAuth
+  ApiC -->|"REST / HTTPS"| RecSvc
+  ApiC -->|"REST / HTTPS"| IntSvc
+  RecSvc --> CryptoM
+  RecSvc --> ChainM
+  RecSvc --> AuditM
+  IntSvc --> ChainM
+  RbacSvc --> ChainM
+  RecSvc -->|"SQL"| Tables
+  IntSvc -->|"SQL"| Tables
+  ChainM -->|"JSON-RPC"| RBACc
+  ChainM -->|"JSON-RPC"| IAc
+  ChainM -->|"JSON-RPC"| AUDc
+  DataC -->|"RLS-guarded reads"| Tables

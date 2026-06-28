@@ -1,0 +1,37 @@
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','primaryTextColor':'#000000','lineColor':'#000000','textColor':'#000000','actorBkg':'#ffffff','actorBorder':'#000000','actorTextColor':'#000000','actorLineColor':'#000000','signalColor':'#000000','signalTextColor':'#000000','labelBoxBkgColor':'#ffffff','labelBoxBorderColor':'#000000','labelTextColor':'#000000','loopTextColor':'#000000','noteBkgColor':'#ffffff','noteBorderColor':'#000000','noteTextColor':'#000000','sequenceNumberColor':'#000000','altBackground':'#ffffff'}}}%%
+sequenceDiagram
+  actor D as Doctor
+  actor L as Lab Technician
+  participant FE as Frontend (Browser)
+  participant EF as Edge Function
+  participant RB as RBAC Contract
+  participant DB as Supabase Postgres
+  participant IA as IntegrityAnchor Contract
+
+  Note over D,IA: Phase 1 — Doctor orders the test
+  D->>FE: Order lab test (during encounter)
+  FE->>EF: POST /create-record (token, lab_order)
+  EF->>RB: checkAccess(doctor, create, lab_order)
+  RB-->>EF: PERMIT
+  EF->>DB: INSERT lab order (status = ordered)
+  EF->>IA: anchorHash(order)
+  IA-->>EF: tx receipt
+  EF-->>FE: Order created
+
+  Note over D,IA: Phase 2 — Lab technician fulfils the order
+  L->>FE: Open lab order queue
+  FE->>EF: GET /read-record (token, lab orders)
+  EF->>RB: checkAccess(labtech, read, lab_order)
+  RB-->>EF: PERMIT
+  EF->>DB: SELECT pending orders
+  DB-->>EF: Order list
+  EF-->>FE: Display queue
+  L->>FE: Upload result for order
+  FE->>EF: POST /create-record (token, lab_result, order_id)
+  EF->>RB: checkAccess(labtech, create, lab_result)
+  RB-->>EF: PERMIT
+  EF->>EF: Encrypt + SHA-256 hash
+  EF->>DB: INSERT lab result, UPDATE order status = completed
+  EF->>IA: anchorHash(result) + emit AuditEvent
+  IA-->>EF: tx receipt
+  EF-->>FE: Result saved (VERIFIED)

@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NexusEHR | Patient Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#7c3aed",
+                        "on-secondary-container": "#bea8ff",
+                        "on-secondary-fixed-variant": "#4f319c",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#e8ddff",
+                        "outline-variant": "#4a4455",
+                        "outline": "#958da1",
+                        "on-tertiary": "#4f2500",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2c2833",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-primary-fixed-variant": "#5a00c6",
+                        "tertiary-container": "#a15100",
+                        "surface-container-highest": "#37333e",
+                        "surface-container": "#221e28",
+                        "surface-bright": "#3c3742",
+                        "primary-fixed": "#eaddff",
+                        "primary": "#d2bbff",
+                        "tertiary": "#ffb784",
+                        "on-surface-variant": "#ccc3d8",
+                        "on-primary": "#3f008e",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "surface-tint": "#d2bbff",
+                        "surface-container-low": "#1d1a24",
+                        "secondary-container": "#4f319c",
+                        "surface-variant": "#37333e",
+                        "on-surface": "#e8dfee",
+                        "on-secondary": "#381385",
+                        "on-primary-container": "#ede0ff",
+                        "on-background": "#e8dfee",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#15121b",
+                        "on-tertiary-container": "#ffe0cd",
+                        "surface": "#15121b",
+                        "secondary-fixed-dim": "#cebdff",
+                        "on-secondary-fixed": "#21005e",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "inverse-surface": "#e8dfee",
+                        "secondary": "#cebdff",
+                        "inverse-on-surface": "#332f39",
+                        "surface-container-lowest": "#100d16",
+                        "on-tertiary-fixed": "#301400",
+                        "primary-fixed-dim": "#d2bbff",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#732ee4",
+                        "on-primary-fixed": "#25005a",
+                        "background": "#15121b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #15121b;
+            color: #e8dfee;
+            overflow-x: hidden;
+        }
+        .glass-surface {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-surface-high {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 40px rgba(124, 58, 237, 0.05);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #7c3aed 0%, #bea8ff 100%);
+        }
+        .active-glow {
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 backdrop-blur-xl font-body-md text-body-md docked full-width top-0 border-b border-white/10 backdrop-blur-md bg-surface/40 shadow-lg shadow-primary-container/10 flex justify-between items-center w-full px-lg py-sm sticky top-0 z-50">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">NexusEHR</span>
+<div class="hidden md:flex gap-md ml-xl">
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors px-md py-xs rounded-lg" href="#">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-primary px-md py-xs" href="#">Registration</a>
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors px-md py-xs rounded-lg" href="#">Scheduling</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden lg:block text-label-md font-label-md text-on-surface-variant px-md py-xs border border-white/10 rounded-full bg-white/5">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-xs"></span>
+                Blockchain: Online
+            </div>
+<div class="flex gap-sm">
+<button class="material-symbols-outlined text-on-surface-variant p-xs hover:bg-white/5 rounded-full transition-colors">hub</button>
+<button class="material-symbols-outlined text-on-surface-variant p-xs hover:bg-white/5 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant p-xs hover:bg-white/5 rounded-full transition-colors">settings</button>
+</div>
+<img alt="Medical professional profile" class="w-8 h-8 rounded-full border border-primary/30" data-alt="A professional medical receptionist portrait in a clean, high-tech hospital environment. She has a friendly, focused expression, wearing dark clinical scrubs. The background features soft, out-of-focus medical equipment and subtle blue and purple ambient lighting, consistent with a high-fidelity EHR interface aesthetic. Modern, minimalist, and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtNdfdZKZp-DFvg23Cb79T7odDFIJQAoQZOpDKTdolBFOT2F9zid5TthJ3rmhcD-9fT_FBTwlg8htCR9jskeandYpI74ok7QzN4C_nmvia6jjUCgL_w2s1kp8pbe2jzblz51h5KfkgSLrqiMdRJuMYv547fa6z0b9wkp72cJjkwgP-Up1RSw_EnhIkjtj0N7sw8ByDW553T78g4vTiRV7nWSRHXJANcGPKLl7CV4bBQ8BI0bjKfDDEAyASx6EBKOkn7TEs-j9zR8DX">
+</div>
+</header>
+<main class="flex-grow relative flex items-center justify-center p-md md:p-xl overflow-hidden">
+<!-- Atmospheric Background Element -->
+
+<div class="w-full max-w-4xl z-10">
+<!-- Registration Card -->
+<div class="glass-surface-high rounded-[24px] p-lg md:p-xl flex flex-col gap-lg">
+<!-- Header & Progress -->
+<div class="flex flex-col gap-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Patient Intake</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Registering a new digital health identity on NexusEHR.</p>
+</div>
+<div class="flex items-center gap-xs bg-emerald-500/10 border border-emerald-500/20 px-md py-sm rounded-xl">
+<span class="material-symbols-outlined text-emerald-400 text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-label-md font-label-md text-emerald-400">FR-REC-3: DUPLICATE CHECK ACTIVE</span>
+</div>
+</div>
+<!-- Progress Stepper -->
+<nav class="flex items-center justify-between mt-md relative">
+<!-- Connector Line -->
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-white/10 -translate-y-1/2 z-0"></div>
+<!-- Step 1: Active -->
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-10 h-10 rounded-full primary-gradient flex items-center justify-center active-glow">
+<span class="material-symbols-outlined text-white">person</span>
+</div>
+<span class="text-label-md font-label-md text-primary">Personal Info</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">contact_page</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Contact</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">emergency</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Emergency</span>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">task_alt</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Review</span>
+</div>
+</nav>
+</div>
+<!-- Form Content: Section 1 (Personal Info) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg mt-md">
+<!-- Left Column -->
+<div class="flex flex-col gap-lg">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">FULL NAME</label>
+<input class="bg-white/5 border border-white/10 rounded-xl px-md py-sm font-body-md text-on-surface placeholder:text-on-surface-variant/40 transition-all focus:border-primary/50" placeholder="e.g. Johnathan Q. Public" type="text">
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">DATE OF BIRTH</label>
+<input class="bg-white/5 border border-white/10 rounded-xl px-md py-sm font-body-md text-on-surface transition-all focus:border-primary/50" type="date">
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">LEGAL SEX</label>
+<select class="bg-white/5 border border-white/10 rounded-xl px-md py-sm font-body-md text-on-surface transition-all focus:border-primary/50">
+<option class="bg-surface">Select...</option>
+<option class="bg-surface">Male</option>
+<option class="bg-surface">Female</option>
+<option class="bg-surface">Other</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">MEDICAL RECORD NUMBER (MRN)</label>
+<div class="flex gap-sm">
+<input class="flex-grow bg-white/5 border border-primary/30 rounded-xl px-md py-sm font-body-md text-primary font-bold transition-all" type="text" value="MRN-8842-XJ">
+<div class="flex items-center gap-xs px-md py-sm bg-emerald-400/20 border border-emerald-400/40 rounded-xl text-emerald-400">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md font-label-md">VERIFIED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="flex flex-col gap-lg">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">NATIONAL ID / SSN</label>
+<input class="bg-white/5 border border-white/10 rounded-xl px-md py-sm font-body-md text-on-surface placeholder:text-on-surface-variant/40 transition-all focus:border-primary/50" placeholder="XXX-XX-XXXX" type="text">
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs">PREFERRED LANGUAGE</label>
+<input class="bg-white/5 border border-white/10 rounded-xl px-md py-sm font-body-md text-on-surface placeholder:text-on-surface-variant/40 transition-all focus:border-primary/50" placeholder="e.g. English, Spanish" type="text">
+</div>
+<!-- Verification Area -->
+<div class="flex-grow bg-surface-container-low/50 border border-primary/20 rounded-2xl p-md flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[120px]">security</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">link</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest">Security Protocol</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                                This record will be cryptographically hashed and anchored on the <span class="text-on-surface font-bold">Nexus Blockchain Node 0x4F2</span> to ensure data integrity and audit transparency.
+                            </p>
+<div class="mt-auto flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-[10px] text-on-surface-variant font-mono">ENCRYPTION: AES-256-GCM ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-md pt-lg border-t border-white/10">
+<button class="w-full md:w-auto px-lg py-md rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-white/5 transition-all">
+                        CANCEL REGISTRATION
+                    </button>
+<div class="flex gap-md w-full md:w-auto">
+<button class="flex-1 md:flex-none px-xl py-md rounded-xl border border-primary text-primary font-label-md text-label-md hover:bg-primary/10 transition-all">
+                            PREVIOUS
+                        </button>
+<button class="flex-1 md:flex-none px-xl py-md rounded-xl primary-gradient text-white font-label-md text-label-md shadow-lg shadow-primary-container/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            NEXT: CONTACT DETAILS
+                        </button>
+</div>
+</div>
+</div>
+<!-- Contextual Help Card -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="glass-surface rounded-2xl p-md flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container">info</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Required Fields</p>
+<p class="text-[11px] text-on-surface-variant mt-xs">Fields marked with an asterisk are mandatory for EHR compliance.</p>
+</div>
+</div>
+<div class="glass-surface rounded-2xl p-md flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container">fingerprint</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Identity Resolution</p>
+<p class="text-[11px] text-on-surface-variant mt-xs">System automatically scans for matching records across the network.</p>
+</div>
+</div>
+<div class="glass-surface rounded-2xl p-md flex items-start gap-md">
+<span class="material-symbols-outlined text-primary-container">help</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Need Assistance?</p>
+<p class="text-[11px] text-on-surface-variant mt-xs">Press F1 to open the Clinical Support chat widget.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-around items-center h-16 px-md pb-safe bg-surface-container-high/95 backdrop-blur-lg rounded-t-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-label-md font-label-md">Patients</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">hourglass_empty</span>
+<span class="text-label-md font-label-md">Queue</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-label-md font-label-md">Alerts</span>
+</div>
+</nav>
+<script>
+        // Simple Micro-interaction for inputs
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+                input.parentElement.style.transition = 'all 0.3s ease';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Toggle duplicate check simulation
+        setTimeout(() => {
+            console.log("NexusEHR: Initializing real-time duplicate check...");
+        }, 1000);
+    </script>
+</body></html>

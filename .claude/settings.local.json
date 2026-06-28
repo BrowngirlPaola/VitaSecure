@@ -1,0 +1,11 @@
+{
+  "enabledMcpjsonServers": [
+    "stitch",
+    "playwright"
+  ],
+  "permissions": {
+    "allow": [
+      "mcp__stitch__get_screen"
+    ]
+  }
+}

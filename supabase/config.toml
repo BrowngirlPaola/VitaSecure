@@ -1,0 +1,55 @@
+# =============================================================================
+# Supabase project config (CLI). For your HOSTED project, link with:
+#   supabase link --project-ref <your-project-ref>
+# then `supabase db push` and `supabase functions deploy`. The dashboard
+# settings win for hosted; this file drives the local stack and documents intent.
+# =============================================================================
+project_id = "vitasecure"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed/seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+# Set to your deployed frontend origin in production.
+site_url = "http://127.0.0.1:5500"
+additional_redirect_urls = ["http://127.0.0.1:5500"]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+# Dev convenience: skip the email-confirm step locally. In the hosted project,
+# keep confirmations ON (Dashboard ▸ Authentication ▸ Providers ▸ Email).
+enable_confirmations = false
+
+# Inject the application role (user_role) into every access token so RLS and the
+# frontend can read it. Mirrors public.profiles.role (see 0001 / 0003).
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/public/custom_access_token_hook"
+
+[functions.create-record]
+verify_jwt = true
+
+[functions.read-record]
+verify_jwt = true
+
+[functions.verify-integrity]
+verify_jwt = true
